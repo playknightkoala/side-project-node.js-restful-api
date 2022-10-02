@@ -1,8 +1,9 @@
 const jwt = require("jsonwebtoken");
+const moment = require("moment");
 const secretKey = process.env.JWT_SECRET_KEY;
 
 exports.generalJWT = (payload) => {
-    return jwt.sign({payload, exp: Math.floor(Date.now() / 1000) + (60 * 15)}, secretKey);
+    return jwt.sign({payload, exp: moment().endOf("days").unix()}, secretKey);
 }
 
 exports.parseJWT = (token) => {

@@ -3,5 +3,5 @@ module.exports = (app) => {
 
     app.route("/members")
         .get(memberControllers.readMember)
-        .post(memberControllers.createMember);
+        .post(memberControllers.login);
 }

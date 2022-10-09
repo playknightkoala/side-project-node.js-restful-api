@@ -1,13 +1,17 @@
 const memberService = require("../service/memberService");
 
+exports.createMember = async (request, response) => {
+  response.send(await memberService.createMember(request));
+};
+
 exports.readMember = async (request, response) => {
-  response.json(await memberService.queryMember());
+  response.json(await memberService.readMember());
 };
 
-exports.login = async (request, response) => {
-  response.json(await memberService.login(request));
+exports.updateMember = async (request, response) => {
+  response.send(await memberService.updateMember(request));
 };
 
-exports.createMember = (request, response) => {
-  response.send(memberService.createMember(request.body));
+exports.deleteMember = async (request, response) => {
+  response.send(await memberService.deleteMember(request));
 };

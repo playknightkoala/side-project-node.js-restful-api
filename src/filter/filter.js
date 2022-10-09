@@ -3,7 +3,7 @@ const processJWT = require("../unit/processJWT");
 const unit = require("../unit/unit");
 
 module.exports = async (request, response, next) => {
-  if (request.method !== "POST" && request.url !== "/member") {
+  if ((request.method !== "POST" && request.url !== "/members") && request.url !== "/login") {
     if (request.header("authorization")) {
       const authorization = request.header("authorization").split("Bearer ")[1];
       let isValid = false;

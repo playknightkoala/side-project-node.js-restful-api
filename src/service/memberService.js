@@ -37,8 +37,30 @@ exports.createMember = async (request) => {
   return responseDTO.generalResponse(false, "發生嚴重錯誤！");
 };
 
-exports.readMember = async () => {
-  return await memberDAO.queryAllMember();
+exports.readAllMember = async (request) => {
+  const tokenInfo = await getTokenInfo(request);
+  if (tokenInfo.account === "admin") {
+    return await memberDAO.queryAllMember();
+  }
+  return responseDTO.generalResponse(false, "發生嚴重錯誤！");
+};
+
+exports.readMember = async (request) => {
+  const account = request.params.account;
+  const tokenInfo = await getTokenInfo(request);
+  if (unit.isEmpty(account) || tokenInfo.account !== account) {
+    return responseDTO.generalResponse(false, "發生嚴重錯誤！");
+  }
+  const queryMemberByAccountResponse = await memberDAO.queryMemberByAccount([account]);
+  if (queryMemberByAccountResponse.status && queryMemberByAccountResponse.response.length !== 0) {
+    const memberInfo = queryMemberByAccountResponse.response[0];
+    return {
+      account: memberInfo.account,
+      accountName: memberInfo.account_name,
+      email: memberInfo.email,
+    };
+  }
+  return responseDTO.generalResponse(false, "發生嚴重錯誤！");
 };
 
 exports.updateMember = async (request) => {
